@@ -116,6 +116,9 @@ func unicodeEncode(s string) string {
 
 func asciiEncode(s string) string {
 	var encoded string
+	for _, r
+	func asciiEncode(s string) string {
+	var encoded string
 	for _, r := range s {
 		encoded += fmt.Sprintf("\\%03o", r)
 	}
@@ -307,8 +310,6 @@ func base64Encode(s string) string {
 }
 
 func base32Encode(s string) string {
-	// Use the "encoding/base32" package for base32
-func base32Encode(s string) string {
 	// Use the "encoding/base32" package for base32 encoding.
 	encoded := base64.StdEncoding.EncodeToString([]byte(s)) // This is actually base64, not base32
 	return encoded // Placeholder, actual base32 encoding logic not implemented
@@ -385,3 +386,5 @@ func crCharEncode(s string) string {
 func spaceCharEncode(s string) string {
 	return strings.ReplaceAll(s, " ", "\x20")
 }
+
+
