@@ -65,7 +65,7 @@ func main() {
 	encodeAndPrint("Windows-1257 Encoding", windows1257Encode, text)
 	encodeAndPrint("Windows-1258 Encoding", windows1258Encode, text)
 	encodeAndPrint("Binary Encoding", binaryEncode, text)
-	encodeAndPrint("Hex Encoding",	hexEncode, text)
+	encodeAndPrint("Hex Encoding", hexEncode, text)
 	encodeAndPrint("Octal Encoding", octalEncode, text)
 	encodeAndPrint("Decimal Encoding", decimalEncode, text)
 	encodeAndPrint("JavaScript Encoding", javascriptEncode, text)
@@ -78,11 +78,11 @@ func main() {
 	encodeAndPrint("Base64 Encoding", base64Encode, text)
 	encodeAndPrint("Base32 Encoding", base32Encode, text)
 	encodeAndPrint("Base16 Encoding", base16Encode, text)
-	encodeAndPrint("Punycode Encoding", punycodeDecode, text)
-	encodeAndPrint("ROT13 Encoding", rot13Encode, text)
-	encodeAndPrint("Caesar Cipher Encoding", caesarCipherEncode, text)
-	encodeAndPrint("Vigenère Cipher Encoding", vigenereCipherEncode, text)
-	encodeAndPrint("XOR Encoding", xorEncode, text)
+	encodeAndPrint("Punycode Encoding", punycodeEncode, text)
+		encodeAndPrint("ROT13 Encoding", rot13Encode, text)
+	encodeAndPrint("Caesar Cipher Encoding", func(s string) string { return caesarCipherEncode(s, 3) }, text) // Using a shift of 3 for Caesar Cipher
+	encodeAndPrint("Vigenère Cipher Encoding", func(s string) string { return vigenereCipherEncode(s, "key") }, text) // Using "key" as the Vigenère key
+	encodeAndPrint("XOR Encoding", func(s string) string { return xorEncode(s, "key") }, text) // Using "key" for XOR encoding
 	encodeAndPrint("Null Character Encoding", nullCharEncode, text)
 	encodeAndPrint("Tab Character Encoding", tabCharEncode, text)
 	encodeAndPrint("Newline Character Encoding", newlineCharEncode, text)
@@ -104,7 +104,7 @@ func encodeAndPrint(name string, encoder func(string) string, text string) {
 }
 
 func htmlEntityEncode(s string) string {
-	return strings.Replace(s, "&", "&amp;", -1)
+	return strings.ReplaceAll(strings.ReplaceAll(s, "&", "&amp;"), "<", "&lt;")
 }
 
 func unicodeEncode(s string) string {
@@ -128,7 +128,7 @@ func asciiEncode(s string) string {
 }
 
 func utf7Encode(s string) string {
-	return strings.Replace(s, "+", "\\+", -1)
+	return strings.ReplaceAll(s, "+", "\\+")
 }
 
 func utf8Encode(s string) string {
@@ -148,8 +148,7 @@ func utf32Encode(s string) string {
 	encoded := utf32.Encode([]rune(s))
 	var sb strings.Builder
 	for _, v := range encoded {
-		sb.WriteString(fmt.Sprintf("\\U%08X
-", v))
+		sb.WriteString(fmt.Sprintf("\\U%08X", v))
 	}
 	return sb.String()
 }
@@ -322,8 +321,8 @@ func base16Encode(s string) string {
 	return hex.EncodeToString([]byte(s))
 }
 
-func punycodeDecode(s string) string {
-	// Punycode decoding is not implemented in the standard library,
+func punycodeEncode(s string) string {
+	// Punycode encoding is not implemented in the standard library,
 	// so we can't provide a complete implementation here.
 	return s
 }
@@ -346,9 +345,9 @@ func caesarCipherEncode(s string, shift int) string {
 	var sb strings.Builder
 	for _, r := range s {
 		if r >= 'a' && r <= 'z' {
-			sb.WriteRune(((r-'a'+shift)%26) + 'a')
+			sb.WriteRune(((r-'a'+rune(shift))%26) + 'a')
 		} else if r >= 'A' && r <= 'Z' {
-			sb.WriteRune(((r-'A'+shift)%26) + 'A')
+			sb.WriteRune(((r-'A'+rune(shift))%26) + 'A')
 		} else {
 			sb.WriteRune(r)
 		}
@@ -359,13 +358,16 @@ func caesarCipherEncode(s string, shift int) string {
 func vigenereCipherEncode(s, key string) string {
 	var sb strings.Builder
 	keyLen := len(key)
-	for i, r := range s {
+	keyIndex := 0
+	for _, r := range s {
 		if r >= 'a' && r <= 'z' {
-			shift := int(key[i%keyLen]) - 'a'
-			sb.WriteRune(((r-'a'+shift)%26) + 'a')
+			shift := int(key[keyIndex%keyLen]) - 'a'
+			sb.WriteRune(((r-'a'+rune(shift))%26) + 'a')
+			keyIndex++
 		} else if r >= 'A' && r <= 'Z' {
-			shift := int(key[i%keyLen]) - 'A'
-			sb.WriteRune(((r-'A'+shift)%26) + 'A')
+			shift := int(key[keyIndex%keyLen]) - 'A'
+			sb.WriteRune(((r-'A'+rune(shift))%26) + 'A')
+			keyIndex++
 		} else {
 			sb.WriteRune(r)
 		}
@@ -383,25 +385,23 @@ func xorEncode(s, key string) string {
 }
 
 func nullCharEncode(s string) string {
-	return strings.Replace(s, "\x00", "\\x00", -1)
+	return strings.ReplaceAll(s, "\x00", "\\x00")
 }
 
 func tabCharEncode(s string) string {
-	return strings.Replace(s, "\t", "\\t", -1)
+	return strings.ReplaceAll(s, "\t", "\\t")
 }
 
 func newlineCharEncode(s string) string {
-	return strings.Replace(s, "\n", "\\n", -1)
+	return strings.ReplaceAll(s, "\n", "\\n")
 }
 
 func crCharEncode(s string) string {
-	return strings.Replace(s, "\r", "\\r", -1)
-
-
-	}
+	return strings.ReplaceAll(s, "\r", "\\r")
+}
 
 func spaceCharEncode(s string) string {
-	return strings.Replace(s, " ", "\\s", -1)
+	return strings.ReplaceAll(s, " ", "\\s")
 }
 
 func encodeISO8859(s string, index int) string {
@@ -418,8 +418,11 @@ func encodeISO8859(s string, index int) string {
 
 func encodeWindows(s string, codepage int) string {
 	// Windows codepage encoding is not implemented in the standard library,
-	// so we can't provide a complete implementation here.
+	// so we not implemented here.
 	return s
 }
 
-
+func main() {
+	// The main function is already defined above.
+	// This is just to ensure the program is complete.
+}
