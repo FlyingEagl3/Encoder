@@ -2,12 +2,9 @@ import argparse
 import urllib.parse
 import html
 import base64
-
-# Additional imports for encoding schemes
 import codecs
 import binascii
 
-# Define the Encoder class
 class Encoder:
     def __init__(self, payload):
         self.payload = payload
@@ -76,7 +73,7 @@ class Encoder:
         return base64.b16encode(self.payload.encode()).decode()
 
     def punycode_encode(self):
-        return self.payload.encode('punycode').decode()
+        return punycode.encode(self.payload)
 
     def rot13_encode(self):
         return codecs.encode(self.payload, 'rot_13')
@@ -157,8 +154,8 @@ class Encoder:
             "Base16 Encoding": self.base16_encode(),
             "Punycode Encoding": self.punycode_encode(),
             "ROT13 Encoding": self.rot13_encode(),
-            "Caesar Cipher Encoding": self.caesar_cipher_encode(3),  # Shift of 3 for Caesar Cipher
-            "XOR Encoding": self.xor_encode(42),  # XOR with a key of 42
+            "Caesar Cipher Encoding": self.caesar_cipher_encode(3),
+            "XOR Encoding": self.xor_encode(42),
             "Null Character Encoding": self.null_character_encode(),
             "Tab Character Encoding": self.tab_character_encode(),
             "Newline Character Encoding": self.newline_character_encode(),
@@ -192,4 +189,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
