@@ -14,95 +14,111 @@ import (
 )
 
 const (
-	authorName = "Assistant"
-	toolName   = "Encoding Demonstration Tool"
+	authorName = "Flying_Eagle" // Updated author name
+	toolName   = "Encoder Tool"
 )
 
 func main() {
-	if len(os.Args) > 1 && os.Args[1] == "-h" {
+	// Check if at least one argument is provided
+	if len(os.Args) < 2 {
 		printHelp()
 		return
 	}
 
+	// Get the payload from command-line arguments
+	payload := os.Args[1]
+
+	// Check for verbosity option
+	verbose := false
+	if len(os.Args) > 2 && os.Args[2] == "-v" {
+		verbose = true
+	}
+
 	fmt.Printf("Author: %s\nTool: %s\n\n", authorName, toolName)
 
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter text to encode: ")
-	text, _ := reader.ReadString('\n')
-	text = strings.TrimSpace(text)
+	// Print the payload if verbosity is enabled
+	if verbose {
+		fmt.Printf("Payload: %s\n", payload)
+	}
 
 	fmt.Println("\nEncoding Schemes:")
 	fmt.Println("----------------")
 
-	encodeAndPrint("URL Encoding", url.QueryEscape, text)
-	encodeAndPrint("HTML Entity Encoding", htmlEntityEncode, text)
-	encodeAndPrint("Unicode Encoding", unicodeEncode, text)
-	encodeAndPrint("ASCII Encoding", asciiEncode, text)
-	encodeAndPrint("UTF-7 Encoding", utf7Encode, text)
-	encodeAndPrint("UTF-8 Encoding", utf8Encode, text)
-	encodeAndPrint("UTF-16 Encoding", utf16Encode, text)
-	encodeAndPrint("UTF-32 Encoding", utf32Encode, text)
-	encodeAndPrint("ISO-8859-1 Encoding", iso88591Encode, text)
-	encodeAndPrint("ISO-8859-2 Encoding", iso88592Encode, text)
-	encodeAndPrint("ISO-8859-5 Encoding", iso88595Encode, text)
-	encodeAndPrint("ISO-8859-6 Encoding", iso88596Encode, text)
-	encodeAndPrint("ISO-8859-7 Encoding", iso88597Encode, text)
-	encodeAndPrint("ISO-8859-8 Encoding", iso88598Encode, text)
-	encodeAndPrint("ISO-8859-9 Encoding", iso88599Encode, text)
-	encodeAndPrint("ISO-8859-10 Encoding", iso885910Encode, text)
-	encodeAndPrint("ISO-8859-11 Encoding", iso885911Encode, text)
-	encodeAndPrint("ISO-8859-13 Encoding", iso885913Encode, text)
-	encodeAndPrint("ISO-8859-14 Encoding", iso885914Encode, text)
-	encodeAndPrint("ISO-8859-15 Encoding", iso885915Encode, text)
-	encodeAndPrint("ISO-8859-16 Encoding", iso885916Encode, text)
-	encodeAndPrint("Windows-1250 Encoding", windows1250Encode, text)
-	encodeAndPrint("Windows-1251 Encoding", windows1251Encode, text)
-	encodeAndPrint("Windows-1252 Encoding", windows1252Encode, text)
-	encodeAndPrint("Windows-1253 Encoding", windows1253Encode, text)
-	encodeAndPrint("Windows-1254 Encoding", windows1254Encode, text)
-	encodeAndPrint("Windows-1255 Encoding", windows1255Encode, text)
-	encodeAndPrint("Windows-1256 Encoding", windows1256Encode, text)
-	encodeAndPrint("Windows-1257 Encoding", windows1257Encode, text)
-	encodeAndPrint("Windows-1258 Encoding", windows1258Encode, text)
-	encodeAndPrint("Binary Encoding", binaryEncode, text)
-	encodeAndPrint("Hex Encoding", hexEncode, text)
-	encodeAndPrint("Octal Encoding", octalEncode, text)
-	encodeAndPrint("Decimal Encoding", decimalEncode, text)
-	encodeAndPrint("JavaScript Encoding", javascriptEncode, text)
-	encodeAndPrint("JavaScript Unicode Encoding", javascriptUnicodeEncode, text)
-	encodeAndPrint("JavaScript Octal Encoding", javascriptOctalEncode, text)
-	encodeAndPrint("Double URL Encoding", doubleURLEncode, text)
-	encodeAndPrint("Double HTML Entity Encoding", doubleHTMLEntityEncode, text)
-	encodeAndPrint("Double Unicode Encoding", doubleUnicodeEncode, text)
-	encodeAndPrint("Double ASCII Encoding", doubleASCIIEncode, text)
-	encodeAndPrint("Base64 Encoding", base64Encode, text)
-	encodeAndPrint("Base32 Encoding", base32Encode, text)
-	encodeAndPrint("Base16 Encoding", base16Encode, text)
-	encodeAndPrint("Punycode Encoding", punycodeEncode, text)
-		encodeAndPrint("ROT13 Encoding", rot13Encode, text)
-	encodeAndPrint("Caesar Cipher Encoding", func(s string) string { return caesarCipherEncode(s, 3) }, text) // Using a shift of 3 for Caesar Cipher
-	encodeAndPrint("Vigenère Cipher Encoding", func(s string) string { return vigenereCipherEncode(s, "key") }, text) // Using "key" as the Vigenère key
-	encodeAndPrint("XOR Encoding", func(s string) string { return xorEncode(s, "key") }, text) // Using "key" for XOR encoding
-	encodeAndPrint("Null Character Encoding", nullCharEncode, text)
-	encodeAndPrint("Tab Character Encoding", tabCharEncode, text)
-	encodeAndPrint("Newline Character Encoding", newlineCharEncode, text)
-	encodeAndPrint("Carriage Return Character Encoding", crCharEncode, text)
-	encodeAndPrint("Space Character Encoding", spaceCharEncode, text)
+	// Call encoding functions and print results
+	encodeAndPrint("URL Encoding", url.QueryEscape, payload, verbose)
+	encodeAndPrint("HTML Entity Encoding", htmlEntityEncode, payload, verbose)
+	encodeAndPrint("Unicode Encoding", unicodeEncode, payload, verbose)
+	encodeAndPrint("ASCII Encoding", asciiEncode, payload, verbose)
+	encodeAndPrint("UTF-7 Encoding", utf7Encode, payload, verbose)
+	encodeAndPrint("UTF-8 Encoding", utf8Encode, payload, verbose)
+	encodeAndPrint("UTF-16 Encoding", utf16Encode, payload, verbose)
+	encodeAndPrint("UTF-32 Encoding", utf32Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-1 Encoding", iso88591Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-2 Encoding", iso88592Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-5 Encoding", iso88595Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-6 Encoding", iso88596Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-7 Encoding", iso88597Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-8 Encoding", iso88598Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-9 Encoding", iso88599Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-10 Encoding", iso885910Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-11 Encoding", iso885911Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-13 Encoding", iso885913Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-14 Encoding", iso885914Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-15 Encoding", iso885915Encode, payload, verbose)
+	encodeAndPrint("ISO-8859-16 Encoding", iso885916Encode, payload, verbose)
+	encodeAndPrint("Windows-1250 Encoding", windows1250Encode, payload, verbose)
+	encodeAndPrint("Windows-1251 Encoding", windows1251Encode, payload, verbose)
+	encodeAndPrint("Windows-1252 Encoding", windows1252Encode, payload, verbose)
+	encodeAndPrint("Windows-1253 Encoding", windows1253Encode, payload, verbose)
+	encodeAndPrint("Windows-1254 Encoding", windows1254Encode, payload, verbose)
+	encodeAndPrint("Windows-1255 Encoding", windows1255Encode, payload, verbose)
+	encodeAndPrint("Windows-1256 Encoding", windows1256Encode, payload, verbose)
+	encodeAndPrint("Windows-1257 Encoding", windows1257Encode, payload, verbose)
+	encodeAndPrint("Windows-1258 Encoding", windows1258Encode, payload, verbose)
+	encodeAndPrint("Binary Encoding", binaryEncode, payload, verbose)
+	encodeAndPrint("Hex Encoding", hexEncode, payload, verbose)
+	encodeAndPrint("Octal Encoding", octalEncode, payload, verbose)
+	encodeAndPrint("Decimal Encoding", decimalEncode, payload, verbose)
+	encodeAndPrint("JavaScript Encoding", javascriptEncode, payload, verbose)
+	encodeAndPrint("JavaScript Unicode Encoding", javascriptUnicodeEncode, payload, verbose)
+	encodeAndPrint("JavaScript Octal Encoding", javascriptOctalEncode, payload, verbose)
+	encodeAndPrint("Double URL Encoding", doubleURLEncode, payload, verbose)
+	encodeAndPrint("Double HTML Entity Encoding", doubleHTMLEntityEncode, payload, verbose)
+	encodeAndPrint("Double Unicode Encoding", doubleUnicodeEncode, payload, verbose)
+	encodeAndPrint("Double ASCII Encoding", doubleASCIIEncode, payload, verbose)
+	encodeAndPrint("Base64 Encoding", base64Encode, payload, verbose)
+	encodeAndPrint("Base32 Encoding", base32Encode, payload, verbose)
+	encodeAndPrint("Base16 Encoding", base16Encode, payload, verbose)
+	encodeAndPrint("Punycode Encoding", punycodeEncode, payload, verbose)
+	encodeAndPrint("ROT13 Encoding", rot13Encode, payload, verbose)
+	encodeAndPrint("Caesar Cipher Encoding", func(s string) string { return caesarCipherEncode(s, 3) }, payload, verbose) // Using a shift of 3 for Caesar Cipher
+	encodeAndPrint("Vigenère Cipher Encoding", func(s string) string { return vigenereCipherEncode(s, "key") }, payload, verbose) // Using "key" as the Vigenère key
+	encodeAndPrint("XOR Encoding", func(s string) string { return xorEncode(s, "key") }, payload, verbose) // Using "key" for XOR encoding
+	encodeAndPrint("Null Character Encoding", nullCharEncode, payload, verbose)
+	encodeAndPrint("Tab Character Encoding", tabCharEncode, payload, verbose)
+	encodeAndPrint("Newline Character Encoding", newlineCharEncode, payload, verbose)
+	encodeAndPrint("Carriage Return Character Encoding", crCharEncode, payload, verbose)
+	encodeAndPrint("Space Character Encoding", spaceCharEncode, payload, verbose)
 }
 
 func printHelp() {
 	fmt.Printf("Author: %s\nTool: %s\n\n", authorName, toolName)
 	fmt.Println("Usage:")
-	fmt.Println("  go run encoding_demo.go")
-	fmt.Println("  go run encoding_demo.go -h")
+	fmt.Println("  Encoder [payload]")
+	fmt.Println("  Encoder [payload] -v")
 	fmt.Println("\nThis tool demonstrates various encoding schemes for a given input text.")
 }
 
-func encodeAndPrint(name string, encoder func(string) string, text string) {
+func encodeAndPrint(name string, encoder func(string) string, text string, verbose bool) {
 	encoded := encoder(text)
-	fmt.Printf("%s: %s\n", name, encoded)
+	if verbose {
+		fmt.Printf("%s: %s\n", name, encoded)
+	} else {
+		fmt.Println(encoded)
+	}
 }
 
+// Encoding functions (placeholders for the actual implementations)
 func htmlEntityEncode(s string) string {
 	return strings.ReplaceAll(strings.ReplaceAll(s, "&", "&amp;"), "<", "&lt;")
 }
