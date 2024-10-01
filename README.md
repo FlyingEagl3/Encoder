@@ -13,25 +13,35 @@ The Encoder tool is a simple and efficient way to encode payloads using a wide r
 To install the Encoder tool, simply run the following command:
 
 
-    go install github.com/FlyingEagl3/Encoder@latest
+    git clone https://github.com/FlyingEagl3/Encoder.git
+
 
 ### Usage
 
 To use the Encoder tool, simply run the command with the payload as an argument:
 
 
-    Encoder [payload]
+    cd Encoder  # If cloned
+    # or if downloaded directly
+    # cd to the directory where encoder.py is located
+
+    python encoder.py "Hello, World!" -v
+    python encoder.py [payload] [-v]
 
 For example:
 
-    Encoder "Hello, World!" 
+    python encoder.py "Hello, World!"
+
 
 This will encode the payload using all supported encoding schemes and print the encoded payload for each scheme.
 Options
 
 The Encoder tool supports the following options:
 
-    -v: Increase verbosity. When this option is used, the tool will print the name of each encoding scheme along with the encoded payload.
+    
+    [payload]: The string you want to encode.
+    -v: (Optional) Increases verbosity, printing the name of each encoding scheme along with the encoded payload.
+
 
 Supported Encoding Schemes
 
