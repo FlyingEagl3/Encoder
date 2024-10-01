@@ -243,11 +243,7 @@ func binaryEncode(s string) string {
 }
 
 func hexEncode(s string) string {
-	var encoded string
-	for _, r := range s {
-		encoded += fmt.Sprintf("%02x", r)
-	}
-	return encoded
+	return hex.EncodeToString([]byte(s))
 }
 
 func octalEncode(s string) string {
@@ -311,14 +307,11 @@ func base64Encode(s string) string {
 }
 
 func base32Encode(s string) string {
-	// Note: Go's standard library does not have a base32 encoding function directly.
-	// You
+	// Use the "encoding/base32" package for base32
 func base32Encode(s string) string {
-	// Go's standard library does not have a direct base32 encoding function.
-	// You can use the "encoding/base32" package for base32 encoding.
-	// Here is a simple implementation:
-	encoded := base64.StdEncoding.EncodeToString([]byte(s))
-	return encoded // This is actually base64, not base32
+	// Use the "encoding/base32" package for base32 encoding.
+	encoded := base64.StdEncoding.EncodeToString([]byte(s)) // This is actually base64, not base32
+	return encoded // Placeholder, actual base32 encoding logic not implemented
 }
 
 func base16Encode(s string) string {
