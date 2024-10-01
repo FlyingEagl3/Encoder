@@ -3,7 +3,8 @@ import urllib.parse
 import html
 import base64
 import codecs
-import binascii
+import idna  # Using idna for Punycode encoding
+import re
 
 class Encoder:
     def __init__(self, payload):
@@ -22,22 +23,22 @@ class Encoder:
         return self.payload.encode('ascii', 'ignore').decode()
 
     def utf7_encode(self):
-        return self.payload.encode('utf-7').decode()
+        return self.payload.encode('utf-7').decode('utf-7', errors='ignore')
 
     def utf8_encode(self):
-        return self.payload.encode('utf-8').decode()
+        return self.payload.encode('utf-8').decode('utf-8', errors='ignore')
 
     def utf16_encode(self):
-        return self.payload.encode('utf-16').decode()
+        return self.payload.encode('utf-16').decode('utf-16', errors='ignore')
 
     def utf32_encode(self):
-        return self.payload.encode('utf-32').decode()
+        return self.payload.encode('utf-32').decode('utf-32', errors='ignore')
 
     def iso_encode(self, encoding):
-        return self.payload.encode(encoding).decode()
+        return self.payload.encode(encoding).decode(encoding, errors='ignore')
 
     def windows_encode(self, encoding):
-        return self.payload.encode(encoding).decode()
+        return self.payload.encode(encoding).decode(encoding, errors='ignore')
 
     def binary_encode(self):
         return ' '.join(format(ord(char), '08b') for char in self.payload)
@@ -61,7 +62,9 @@ class Encoder:
         return ''.join(f'\\{ord(char):03o}' for char in self.payload)
 
     def double_encode(self, encode_func):
-        return encode_func(encode_func(self.payload))
+        # Call the encoding function twice with the payload
+        first_encode = encode_func()  # Call the function without self
+        return encode_func()  # Call the function again
 
     def base64_encode(self):
         return base64.b64encode(self.payload.encode()).decode()
@@ -73,7 +76,16 @@ class Encoder:
         return base64.b16encode(self.payload.encode()).decode()
 
     def punycode_encode(self):
-        return punycode.encode(self.payload)
+        # Extract domain from URL if present
+        domain = self.extract_domain(self.payload)
+        if domain:
+            return idna.encode(domain).decode()  # Using idna for Punycode encoding
+        return "Invalid domain for Punycode encoding"
+
+    def extract_domain(self, url):
+        # Use regex to extract the domain from a URL
+        match = re.search(r'^(?:https?://)?([^/]+)', url)
+        return match.group(1) if match else None
 
     def rot13_encode(self):
         return codecs.encode(self.payload, 'rot_13')
@@ -91,21 +103,6 @@ class Encoder:
     def xor_encode(self, key):
         return ''.join(chr(ord(c) ^ key) for c in self.payload)
 
-    def null_character_encode(self):
-        return '\0'.join(self.payload)
-
-    def tab_character_encode(self):
-        return '\t'.join(self.payload)
-
-    def newline_character_encode(self):
-        return '\n'.join(self.payload)
-
-    def carriage_return_character_encode(self):
-        return '\r'.join(self.payload)
-
-    def space_character_encode(self):
-        return ' '.join(self.payload)
-
     def get_encoded_payloads(self):
         encodings = {
             "URL Encoding": self.url_encode(),
@@ -117,7 +114,7 @@ class Encoder:
             "UTF-16 Encoding": self.utf16_encode(),
             "UTF-32 Encoding": self.utf32_encode(),
             "ISO-8859-1 Encoding": self.iso_encode('iso-8859-1'),
-            "ISO-8859-2 Encoding": self.iso_encode('iso-8859-2'),
+                        "ISO-8859-2 Encoding": self.iso_encode('iso-8859-2'),
             "ISO-8859-5 Encoding": self.iso_encode('iso-8859-5'),
             "ISO-8859-6 Encoding": self.iso_encode('iso-8859-6'),
             "ISO-8859-7 Encoding": self.iso_encode('iso-8859-7'),
@@ -164,15 +161,29 @@ class Encoder:
         }
         return encodings
 
+    def null_character_encode(self):
+        return '\0'.join(self.payload)
+
+    def tab_character_encode(self):
+        return '\t'.join(self.payload)
+
+    def newline_character_encode(self):
+        return '\n'.join(self.payload)
+
+    def carriage_return_character_encode(self):
+        return '\r'.join(self.payload)
+
+    def space_character_encode(self):
+        return ' '.join(self.payload)
+
 def main():
     # Print tool name and author
     print("Encoder Tool by Flying_Eagle")
 
     # Set up argument parser
     parser = argparse.ArgumentParser(description='Encoder Tool for various encoding schemes.')
-    parser.add_argument('payload', type=str, help='The payload to encode')
-    parser.add_argument('-v', action='store_true', help='Increase verbosity')
-    parser.add_argument('-h', action='help', help='Show this help message and exit')
+    parser.add_argument('-p', '--payload', type=str, required=True, help='The payload to encode')
+    parser.add_argument('-v', '--verbose', action='store_true', help='Increase verbosity')
 
     args = parser.parse_args()
 
@@ -181,7 +192,7 @@ def main():
     encoded_payloads = encoder.get_encoded_payloads()
 
     # Print encoded payloads
-    if args.v:
+    if args.verbose:
         for scheme, encoded in encoded_payloads.items():
             print(f"{scheme}: {encoded}")
     else:
@@ -189,5 +200,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
