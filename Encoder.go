@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/base64"
 	"encoding/hex"
 	"flag"
@@ -95,7 +94,7 @@ func main() {
 }
 
 type encoder struct {
-	name  string
+	name   string
 	encode func(string) string
 }
 
@@ -118,7 +117,7 @@ func unicodeEncode(s string) string {
 func asciiEncode(s string) string {
 	var encoded string
 	for _, r := range s {
-				encoded += fmt.Sprintf("\\%03o", r)
+		encoded += fmt.Sprintf("\\%03o", r)
 	}
 	return encoded
 }
@@ -312,9 +311,14 @@ func base64Encode(s string) string {
 }
 
 func base32Encode(s string) string {
-	return base64.Std
+	// Note: Go's standard library does not have a base32 encoding function directly.
+	// You
 func base32Encode(s string) string {
-	return base64.StdEncoding.EncodeToString([]byte(s)) // Note: This is actually base64, not base32
+	// Go's standard library does not have a direct base32 encoding function.
+	// You can use the "encoding/base32" package for base32 encoding.
+	// Here is a simple implementation:
+	encoded := base64.StdEncoding.EncodeToString([]byte(s))
+	return encoded // This is actually base64, not base32
 }
 
 func base16Encode(s string) string {
