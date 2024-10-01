@@ -94,13 +94,14 @@ The Encoder tool supports the following encoding schemes:
     Punycode Encoding
     ROT13 Encoding
     Caesar Cipher Encoding
-    Vigenère Cipher Encoding
     XOR Encoding
     Null Character Encoding
     Tab Character Encoding
     Newline Character Encoding
     Carriage Return Character Encoding
     Space Character Encoding
+
+Vigenère Cipher Encoding: Not implemented in the provided script.
 
 ### Author
 
