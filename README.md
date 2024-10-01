@@ -6,102 +6,61 @@ A command-line utility that takes a payload as input and encodes it using variou
 
 ### Overview
 
-The Encoder tool is a simple and efficient way to encode payloads using a wide range of encoding schemes. It supports over 40 different encoding schemes, including URL encoding, HTML entity encoding, Unicode encoding, and more.
+The Encoder Tool is a Python script designed to encode various types of input strings using multiple encoding schemes. It can handle links, symbols, emails, numbers, and characters, providing a wide range of encoding options such as URL encoding, HTML entity encoding, Base64, and more.
 
 ### Installation
 
-To install the Encoder tool, simply run the following command:
+Clone the repository:
 
+     git clone https://github.com/FlyingEagl3/Encoder.git
+     cd Encoder
+     
+Ensure you have Python 3.x installed on your system.
 
-    git clone https://github.com/FlyingEagl3/Encoder.git
+Install any required libraries if not already available:
 
+    pip install idna
 
 ### Usage
 
 To use the Encoder tool, simply run the command with the payload as an argument:
 
 
-    cd Encoder  # If cloned
-    # or if downloaded directly
-    # cd to the directory where encoder.py is located
-
-    python encoder.py "Hello, World!" -v
-    python encoder.py [payload] [-v]
+    python Encoder.py -p "YourPayloadHere" -v
 
 For example:
 
-    python encoder.py "Hello, World!"
+    python Encoder.py -p "https://example.com" -v
 
 
 This will encode the payload using all supported encoding schemes and print the encoded payload for each scheme.
-Options
 
 The Encoder tool supports the following options:
 
     
-    [payload]: The string you want to encode.
+    -p: [payload] The string you want to encode.
     -v: (Optional) Increases verbosity, printing the name of each encoding scheme along with the encoded payload.
 
 
-Supported Encoding Schemes
+Requirements
+                 
+    Python 3.x
 
-The Encoder tool supports the following encoding schemes:
 
-    URL Encoding
-    HTML Entity Encoding
-    Unicode Encoding
-    ASCII Encoding
-    UTF-7 Encoding
-    UTF-8 Encoding
-    UTF-16 Encoding
-    UTF-32 Encoding
-    ISO-8859-1 Encoding
-    ISO-8859-2 Encoding
-    ISO-8859-5 Encoding
-    ISO-8859-6 Encoding
-    ISO-8859-7 Encoding
-    ISO-8859-8 Encoding
-    ISO-8859-9 Encoding
-    ISO-8859-10 Encoding
-    ISO-8859-11 Encoding
-    ISO-8859-13 Encoding
-    ISO-8859-14 Encoding
-    ISO-8859-15 Encoding
-    ISO-8859-16 Encoding
-    Windows-1250 Encoding
-    Windows-1251 Encoding
-    Windows-1252 Encoding
-    Windows-1253 Encoding
-    Windows-1254 Encoding
-    Windows-1255 Encoding
-    Windows-1256 Encoding
-    Windows-1257 Encoding
-    Windows-1258 Encoding
-    Binary Encoding
-    Hex Encoding
-    Octal Encoding
-    Decimal Encoding
-    JavaScript Encoding
-    JavaScript Unicode Encoding
-    JavaScript Octal Encoding
-    Double URL Encoding
-    Double HTML Entity Encoding
-    Double Unicode Encoding
-    Double ASCII Encoding
-    Base64 Encoding
-    Base32 Encoding
-    Base16 Encoding
-    Punycode Encoding
-    ROT13 Encoding
-    Caesar Cipher Encoding
-    XOR Encoding
-    Null Character Encoding
-    Tab Character Encoding
-    Newline Character Encoding
-    Carriage Return Character Encoding
-    Space Character Encoding
+Required libraries:
+
+    argparse
+    urllib
+    html
+    base64
+    codecs
+    idna
+    re
 
 Vigenère Cipher Encoding: Not implemented in the provided script.
+
+### Contributing
+Contributions are welcome! Please feel free to submit a pull request or open an issue for any bugs or feature requests.
 
 ### Author
 
