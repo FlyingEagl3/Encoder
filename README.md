@@ -13,7 +13,7 @@ The Encoder tool is a simple and efficient way to encode payloads using a wide r
 To install the Encoder tool, simply run the following command:
 
 
-    go install github.com/Flying-Eagl3/Encoder@latest
+    go install github.com/FlyingEagl3/Encoder@latest
 
 ### Usage
 
