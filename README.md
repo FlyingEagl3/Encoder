@@ -1,12 +1,11 @@
-# Encoder Tool
-
+# Encoder Tool for WAF Bypass Techniques
 ================
 
 A command-line utility that takes a payload as input and encodes it using various encoding schemes.
 
 ### Overview
 
-The Encoder Tool is a Python script designed to encode various types of input strings using multiple encoding schemes. It can handle links, symbols, emails, numbers, and characters, providing a wide range of encoding options such as URL encoding, HTML entity encoding, Base64, and more.
+The Encoder Tool is a Python script designed to encode payloads using various encoding schemes and suggest techniques for bypassing Web Application Firewalls (WAFs). This tool can be useful for security researchers and penetration testers who need to test the resilience of web applications against different types of attacks.
 
 ### Installation
 
@@ -17,9 +16,13 @@ Clone the repository:
      
 Ensure you have Python 3.x installed on your system.
 
-Install any required libraries if not already available:
-
-    pip install idna
+Requirements
+                 
+    Python 3.x
+    Required Python modules:
+           argparse
+           idna
+The script will automatically attempt to install any missing modules.
 
 ### Usage
 
@@ -30,7 +33,11 @@ To use the Encoder tool, simply run the command with the payload as an argument:
 
 For example:
 
-    python Encoder.py -p "https://example.com" -v
+    python Encoder.py -p "https://example.com" -v    
+    
+    or
+
+    python Encoder.py -p 'payload' -v
 
 
 This will encode the payload using all supported encoding schemes and print the encoded payload for each scheme.
@@ -38,26 +45,19 @@ This will encode the payload using all supported encoding schemes and print the 
 The Encoder tool supports the following options:
 
     
-    -p: [payload] The string you want to encode.
-    -v: (Optional) Increases verbosity, printing the name of each encoding scheme along with the encoded payload.
+      -p, --payload: The payload to encode (required).
+      -v, --verbose: Increase verbosity to see detailed output (recommended).
+      --update: Check for updates (optional).
 
 
-Requirements
-                 
-    Python 3.x
-
-
-Required libraries:
-
-    argparse
-    urllib
-    html
-    base64
-    codecs
-    idna
-    re
-
-Vigenère Cipher Encoding: Not implemented in the provided script.
+## Features
+     Multiple Encoding Schemes: The tool supports a wide range of encoding techniques, including:
+     URL Encoding
+     HTML Entity Encoding
+     Base64 Encoding
+     ROT13 Encoding
+     XOR Encoding
+     And many more!
 
 ### Contributing
 Contributions are welcome! Please feel free to submit a pull request or open an issue for any bugs or feature requests.
