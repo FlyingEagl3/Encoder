@@ -5,7 +5,7 @@ A command-line utility that takes a payload as input and encodes it using variou
 
 ### Overview
 
-The Encoder Tool is a Python script designed to encode payloads using various encoding schemes and suggest techniques for bypassing Web Application Firewalls (WAFs). This tool can be useful for security researchers and penetration testers who need to test the resilience of web applications against different types of attacks.
+The Encoder Tool for WAF Bypass Techniques is a Python-based utility designed to assist security researchers, penetration testers, and developers in encoding payloads using various encoding schemes. This tool is particularly useful for testing the resilience of web applications against different types of attacks, including Cross-Site Scripting (XSS) and other injection vulnerabilities.
 
 ### Installation
 
